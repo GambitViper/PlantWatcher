@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ImagineCupBTrees.Models.Plantgroup>
+﻿@model IEnumerable<ImagineCupBTrees.Models.SensorReading>
 
 @{
     ViewBag.Title = "Index";
@@ -11,9 +11,6 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PlantName)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.TemperatureF)
         </th>
@@ -35,14 +32,14 @@
         <th>
             @Html.DisplayNameFor(model => model.BonsaiOn)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PlantName)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.TemperatureF)
         </td>
@@ -63,6 +60,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BonsaiOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateAdded)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

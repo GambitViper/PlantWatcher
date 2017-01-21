@@ -6,9 +6,8 @@ using System.Web;
 
 namespace ImagineCupBTrees.Models
 {
-    public class PlantgroupContext:DbContext
+    public class SensorReadingContext : DbContext
     {
-        public DbSet<Plantgroup> Plantgroups { get; set; }
-
+        public DbSet<SensorReading> SensorReadings { get; set; }
     }
 }

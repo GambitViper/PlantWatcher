@@ -1,4 +1,4 @@
-﻿@model ImagineCupBTrees.Models.Plantgroup
+﻿@model ImagineCupBTrees.Models.SensorReading
 
 @{
     ViewBag.Title = "Details";
@@ -7,17 +7,9 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Plantgroup</h4>
+    <h4>SensorReading</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PlantName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PlantName)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.TemperatureF)
         </dt>
@@ -72,6 +64,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.BonsaiOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateAdded)
         </dd>
 
     </dl>
