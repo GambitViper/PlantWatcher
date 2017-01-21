@@ -35,6 +35,11 @@ namespace ImagineCupBTrees.Controllers
             return View(sensorReading);
         }
 
+        public ActionResult Chart()
+        {
+            return View();
+        }
+
         //// GET: SensorReadings/Create
         //public ActionResult Create()
         //{
