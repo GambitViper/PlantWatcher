@@ -17,9 +17,15 @@ namespace ImagineCupBTrees.Controllers.API
         private SensorReadingContext db = new SensorReadingContext();
 
         // GET: api/SensorReadings
-        public IQueryable<SensorReading> GetSensorReadings()
+        public IEnumerable<SensorReading> GetSensorReadings()
         {
-            return db.SensorReadings;
+            var readings = db.SensorReadings.ToList();
+            for (int i = readings.Count-1; i >= 0; i--)
+            {
+                readings[i].DateAdded = readings[i].DateAdded.AddHours(-6);
+            }
+
+            return readings;
         }
 
         // GET: api/SensorReadings/5
