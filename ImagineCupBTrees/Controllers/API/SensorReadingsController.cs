@@ -14,7 +14,7 @@ namespace ImagineCupBTrees.Controllers.API
 {
     public class SensorReadingsController : ApiController
     {
-        private SensorReadingContext db = new SensorReadingContext();
+        private PlantWatcherContext db = new PlantWatcherContext();
 
         // GET: api/SensorReadings
         public IEnumerable<SensorReading> GetSensorReadings()

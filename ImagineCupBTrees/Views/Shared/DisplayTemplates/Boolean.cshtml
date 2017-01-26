@@ -1,0 +1,17 @@
+﻿@model bool?
+@if (Model != null)
+{
+    if (ViewData.ModelMetadata.IsNullableValueType)
+    {
+        var isOn = "";
+        if (Model.HasValue)
+        {
+            isOn = Model.Value ? "Turn On" : "Turn Off";
+        }
+        @Html.Encode(isOn);
+    }
+    else
+    {
+        @(Model.Value ? "On" : "Off")
+    }
+}

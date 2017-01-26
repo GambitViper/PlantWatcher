@@ -1,0 +1,11 @@
+﻿@model bool?
+@using System.Web.Mvc
+
+@{
+    var selectList = new List<SelectListItem>();
+    selectList.Add(new SelectListItem { Text = "", Value = "" });
+    selectList.Add(new SelectListItem { Text = "Turn On", Value = "true", Selected = Model.HasValue && Model.Value });
+    selectList.Add(new SelectListItem { Text = "Turn Off", Value = "false", Selected = Model.HasValue && !Model.Value });
+}
+
+@Html.DropDownListFor(model => model, selectList)

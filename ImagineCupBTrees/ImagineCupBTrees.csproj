@@ -218,21 +218,33 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\API\DevicesController.cs" />
     <Compile Include="Controllers\API\SensorReadingsController.cs" />
     <Compile Include="Controllers\MVC\AccountController.cs" />
+    <Compile Include="Controllers\MVC\DevicesController.cs" />
     <Compile Include="Controllers\MVC\HomeController.cs" />
     <Compile Include="Controllers\MVC\ManageController.cs" />
     <Compile Include="Controllers\MVC\SensorReadingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701250341124_init.cs" />
+    <Compile Include="Migrations\201701250341124_init.Designer.cs">
+      <DependentUpon>201701250341124_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701260417301_Added DateRecorded to Device.cs" />
+    <Compile Include="Migrations\201701260417301_Added DateRecorded to Device.Designer.cs">
+      <DependentUpon>201701260417301_Added DateRecorded to Device.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Humidity.cs" />
     <Compile Include="Models\Light.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SensorReading.cs" />
-    <Compile Include="Models\SensorReadingContext.cs" />
+    <Compile Include="Models\PlantWatcherContext.cs" />
     <Compile Include="Models\Soil.cs" />
     <Compile Include="Models\Temp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -309,6 +321,13 @@
     <Content Include="Views\SensorReadings\Edit.cshtml" />
     <Content Include="Views\SensorReadings\Index.cshtml" />
     <Content Include="Views\SensorReadings\Chart.cshtml" />
+    <Content Include="Views\Devices\Create.cshtml" />
+    <Content Include="Views\Devices\Delete.cshtml" />
+    <Content Include="Views\Devices\Details.cshtml" />
+    <Content Include="Views\Devices\Edit.cshtml" />
+    <Content Include="Views\Devices\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -323,6 +342,14 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701250341124_init.resx">
+      <DependentUpon>201701250341124_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701260417301_Added DateRecorded to Device.resx">
+      <DependentUpon>201701260417301_Added DateRecorded to Device.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

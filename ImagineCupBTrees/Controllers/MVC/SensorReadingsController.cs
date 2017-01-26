@@ -12,12 +12,17 @@ namespace ImagineCupBTrees.Controllers
 {
     public class SensorReadingsController : Controller
     {
-        private SensorReadingContext db = new SensorReadingContext();
+        private PlantWatcherContext db = new PlantWatcherContext();
 
         // GET: SensorReadings
         public ActionResult Index()
         {
-            return View(db.SensorReadings.ToList());
+            var readings = db.SensorReadings.OrderByDescending(reading => reading.DateAdded).Take(100).ToList();
+            for (int i = readings.Count - 1; i >= 0; i--)
+            {
+                readings[i].DateAdded = readings[i].DateAdded.AddHours(-6);
+            }
+            return View(readings);
         }
 
         // GET: SensorReadings/Details/5
