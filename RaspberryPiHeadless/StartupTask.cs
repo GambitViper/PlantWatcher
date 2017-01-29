@@ -405,13 +405,7 @@ namespace RaspberryPiHeadless
 
         private bool IsBonsaiWateringTime()
         {
-            int year = DateTime.Now.Year;
-            int month = DateTime.Now.Month;
-            int day = DateTime.Now.Day - (DateTime.Now.DayOfWeek - DayOfWeek.Wednesday);
-
-            DateTime low = new DateTime(year, month, day, 8, 0, 0, 0);
-            DateTime high = new DateTime(year, month, day, 8, 1, 0, 0);
-            return low.CompareTo(DateTime.Now) >= 0 && high.CompareTo(DateTime.Now) <= 0;
+            return DateTime.Now.DayOfWeek == DayOfWeek.Wednesday && DateTime.Now.Hour == 20 && DateTime.Now.Minute == 0;
         }
 
         private bool IsFirstTenMinutes()
