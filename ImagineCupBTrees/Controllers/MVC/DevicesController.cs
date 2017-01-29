@@ -17,12 +17,7 @@ namespace ImagineCupBTrees.Controllers.MVC
         // GET: Devices
         public ActionResult Index()
         {
-            var query = from device in db.Devices
-                        group device by device.Name into deviceGroup
-                        let latestDevice = deviceGroup.OrderByDescending(x => x.DateRecorded).FirstOrDefault()
-                        select latestDevice;
-            var deviceList = query.ToList();
-            return View(deviceList);
+            return View(db.Devices.ToList());
         }
 
         // GET: Devices/Details/5
@@ -51,7 +46,7 @@ namespace ImagineCupBTrees.Controllers.MVC
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,IsOn,SetState")] Device device)
+        public ActionResult Create([Bind(Include = "Id,Name,IsOn,SetState,DateRecorded")] Device device)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +78,7 @@ namespace ImagineCupBTrees.Controllers.MVC
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,IsOn,SetState")] Device device)
+        public ActionResult Edit([Bind(Include = "Id,Name,IsOn,SetState,DateRecorded")] Device device)
         {
             if (ModelState.IsValid)
             {
