@@ -14,6 +14,7 @@ using Windows.Storage;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -179,22 +180,26 @@ namespace RaspberryPiHeadless
 
         private async void Timer_Tick(ThreadPoolTimer timer)
         {
-            //value = (value == GpioPinValue.High) ? GpioPinValue.Low : GpioPinValue.High;
-            //Debug.WriteLine("Value is " + value + "at time " + timer.Period);
-
             CheckTimeForSwitches();
             GetTempHumSensorReadings();
             GetLuminosityReadings();
             Debug.WriteLine("Temp: " + TemperatureF);
             SensorReading curReading = FillInReading();
-            if (ValidReading(curReading) && (prevReading == null || !AreSameReadings(curReading)))
-            {
-                Debug.WriteLine("Inserting into db");
+            ValidateReading(curReading);
+            CheckConditionsForSwitches(curReading);
+            //if (ValidReading(curReading) && (prevReading == null || !AreSameReadings(curReading)))
                 //InsertValuesIntoDB(curReading);
-                CheckConditionsForSwitches(curReading);
                 await SaveSensorReadingToCloud(curReading);
+            WriteAllDevices();
                 prevReading = curReading;
-            }
+        }
+
+        private void ValidateReading(SensorReading curReading)
+        {
+            if (curReading.TemperatureF > _maximumTemperature || curReading.TemperatureF < _minimumTemperature)
+                curReading.TemperatureF = prevReading.TemperatureF;
+            if (curReading.Humidity > _maximumHumidity || curReading.Humidity < _minimumHumidity)
+                curReading.Humidity = prevReading.Humidity;
         }
 
         private bool ValidReading(SensorReading curReading)
@@ -225,34 +230,46 @@ namespace RaspberryPiHeadless
                 if (response.Content != null)
                 {
                     body = await response.Content.ReadAsStringAsync();
+                    List<Device> devices = JsonConvert.DeserializeObject<List<Device>>(body);
+                    SetStateForDevices(devices);
                 }
+
 
                 Debug.WriteLine("Web reporting client: " + response.StatusCode + " " + body);
             }
         }
 
-        //private async Task SaveDeviceDataToCloud(Device device)
-        //{
-        //    using (var client = new HttpClient())
-        //    {
-        //        curReading.Id = 0;
-        //        var url = ServiceAddress + "sensorreadings";
-        //        var body = JsonConvert.SerializeObject(curReading);
-        //        //_logger.Info("Web reporting client: " + body);
-        //        Debug.WriteLine("Web reporting client: " + body);
-        //        var content = new StringContent(body, Encoding.UTF8, "application/json");
-
-        //        var response = await client.PostAsync(url, content);
-        //        body = "";
-
-        //        if (response.Content != null)
-        //        {
-        //            body = await response.Content.ReadAsStringAsync();
-        //        }
-
-        //        Debug.WriteLine("Web reporting client: " + response.StatusCode + " " + body);
-        //    }
-        //}
+        private void SetStateForDevices(IEnumerable<Device> devices)
+        {
+            if (devices != null)
+            {
+                foreach (var device in devices)
+                {
+                    if (device.SetState != null)
+                    {
+                        switch(device.Name)
+                        {
+                            case "Main LED":
+                                MainLED_Value = device.SetState.Value ? GpioPinValue.High : GpioPinValue.Low;
+                                break;
+                            case "Bonsai Pump":
+                                Bonsai_Value = device.SetState.Value ? GpioPinValue.High : GpioPinValue.Low;
+                                break;
+                            case "Heat Lamp":
+                                HeatLamp_Value = device.SetState.Value ? GpioPinValue.High : GpioPinValue.Low;
+                                break;
+                            case "Boiler":
+                                Boiler_Value = device.SetState.Value ? GpioPinValue.High : GpioPinValue.Low;
+                                break;
+                            case "Fogger":
+                                Fogger_Value = device.SetState.Value ? GpioPinValue.High : GpioPinValue.Low;
+                                FoggerFan_Value = device.SetState.Value ? GpioPinValue.High : GpioPinValue.Low;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
 
         private bool AreSameReadings(SensorReading curReading)
         {
@@ -291,13 +308,21 @@ namespace RaspberryPiHeadless
             Debug.WriteLine("Successful db write: " + success);
         }
 
+        private void WriteAllDevices()
+        {
+            MainLED.Write(MainLED_Value);
+            Bonsai.Write(Bonsai_Value);
+            HeatLamp.Write(HeatLamp_Value);
+            Boiler.Write(Boiler_Value);
+            Fogger.Write(Fogger_Value);
+            FoggerFan.Write(FoggerFan_Value);
+        }
+
         private void CheckTimeForSwitches()
         {
             MainLED_Value = IsDayTime() ? GpioPinValue.High : GpioPinValue.Low;
-            MainLED.Write(MainLED_Value);
 
             Bonsai_Value = IsBonsaiWateringTime() ? GpioPinValue.High : GpioPinValue.Low;
-            Bonsai.Write(Bonsai_Value);
 
             //Boiler_Value = IsFirstTenMinutes() && IsEvenHour() ? GpioPinValue.High : GpioPinValue.Low;
             //Boiler.Write(Boiler_Value);
@@ -312,17 +337,13 @@ namespace RaspberryPiHeadless
         {
             // heatlamp is only on during day and when it's too cold
             HeatLamp_Value = ShouldHeatLampBeOn(reading.TemperatureF) ? GpioPinValue.High : GpioPinValue.Low;
-            HeatLamp.Write(HeatLamp_Value);
 
             // turn boiler on only when heatlamp is on thus when it's too cold during the day
             Boiler_Value = ShouldHumidifierBeOn(Boiler_Value == GpioPinValue.High, reading.Humidity) && HeatLamp_Value == GpioPinValue.High ? GpioPinValue.High : GpioPinValue.Low;
-            Boiler.Write(Boiler_Value);
 
             // turn the fogger on when the boiler is not on
             Fogger_Value = ShouldHumidifierBeOn(FoggerFan_Value == GpioPinValue.High, reading.Humidity) && Boiler_Value == GpioPinValue.Low ? GpioPinValue.High : GpioPinValue.Low;
-            Fogger.Write(Fogger_Value);
             FoggerFan_Value = Fogger_Value;
-            FoggerFan.Write(FoggerFan_Value);
         }
 
         private void GetLuminosityReadings()

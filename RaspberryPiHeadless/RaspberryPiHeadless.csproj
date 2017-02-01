@@ -96,6 +96,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Device.cs" />
     <Compile Include="SensorReading.cs" />
     <Compile Include="SHT15.cs" />
     <Compile Include="StartupTask.cs" />

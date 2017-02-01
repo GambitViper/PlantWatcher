@@ -88,7 +88,9 @@ namespace ImagineCupBTrees.Controllers.API
             db.SensorReadings.Add(sensorReading);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = sensorReading.Id }, sensorReading);
+            var deviceList = db.Devices.ToList();
+
+            return Ok(deviceList);
         }
 
         // DELETE: api/SensorReadings/5
