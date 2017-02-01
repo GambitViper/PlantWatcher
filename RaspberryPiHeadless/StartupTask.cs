@@ -231,28 +231,28 @@ namespace RaspberryPiHeadless
             }
         }
 
-        //private async Task SaveDeviceDataToCloud(Device device)
-        //{
-        //    using (var client = new HttpClient())
-        //    {
-        //        curReading.Id = 0;
-        //        var url = ServiceAddress + "sensorreadings";
-        //        var body = JsonConvert.SerializeObject(curReading);
-        //        //_logger.Info("Web reporting client: " + body);
-        //        Debug.WriteLine("Web reporting client: " + body);
-        //        var content = new StringContent(body, Encoding.UTF8, "application/json");
+        private async Task SaveDeviceDataToCloud(Device device)
+        {
+            using (var client = new HttpClient())
+            {
+                //curReading.Id = 0;
+                var url = ServiceAddress + "sensorreadings";
+                var body = JsonConvert.SerializeObject(device);
+                //_logger.Info("Web reporting client: " + body);
+                Debug.WriteLine("Web reporting client: " + body);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
 
-        //        var response = await client.PostAsync(url, content);
-        //        body = "";
+                var response = await client.PostAsync(url, content);
+                body = "";
 
-        //        if (response.Content != null)
-        //        {
-        //            body = await response.Content.ReadAsStringAsync();
-        //        }
+                if (response.Content != null)
+                {
+                    body = await response.Content.ReadAsStringAsync();
+                }
 
-        //        Debug.WriteLine("Web reporting client: " + response.StatusCode + " " + body);
-        //    }
-        //}
+                Debug.WriteLine("Web reporting client: " + response.StatusCode + " " + body);
+            }
+        }
 
         private bool AreSameReadings(SensorReading curReading)
         {

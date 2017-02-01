@@ -22,7 +22,8 @@ namespace ImagineCupBTrees.Controllers.API
             var readings = db.SensorReadings.ToList();
             for (int i = readings.Count-1; i >= 0; i--)
             {
-                readings[i].DateAdded = readings[i].DateAdded.AddHours(-6);
+                //readings[i].DateAdded = readings[i].DateAdded.AddHours(-6);
+                //TODO fix
             }
 
             return readings;
@@ -87,7 +88,7 @@ namespace ImagineCupBTrees.Controllers.API
 
             db.SensorReadings.Add(sensorReading);
             db.SaveChanges();
-
+            
             return CreatedAtRoute("DefaultApi", new { id = sensorReading.Id }, sensorReading);
         }
 

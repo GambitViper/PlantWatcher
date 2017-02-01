@@ -17,10 +17,11 @@ namespace ImagineCupBTrees.Controllers
         // GET: SensorReadings
         public ActionResult Index()
         {
-            var readings = db.SensorReadings.OrderByDescending(reading => reading.DateAdded).Take(100).ToList();
+            var readings = db.SensorReadings.ToList();//.OrderByDescending(reading => reading.DateAdded).Take(100).ToList();
             for (int i = readings.Count - 1; i >= 0; i--)
             {
-                readings[i].DateAdded = readings[i].DateAdded.AddHours(-6);
+                //readings[i].DateAdded = readings[i].DateAdded.AddHours(-6);
+                //TODO fix
             }
             return View(readings);
         }

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
 namespace ImagineCupBTrees.Models
 {
-    public class Device
+    public class Sensor
     {
         public int Id { get; set; }
         [StringLength(500)]
@@ -11,6 +14,6 @@ namespace ImagineCupBTrees.Models
         [StringLength(1000)]
         public string Description { get; set; }
 
-        public virtual ICollection<DeviceReading> DeviceReadings { get; set; }
+        public virtual ICollection<SensorReading> SensorReadings { get; set; }
     }
 }

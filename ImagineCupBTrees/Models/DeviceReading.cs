@@ -6,14 +6,14 @@ using System.Web;
 
 namespace ImagineCupBTrees.Models
 {
-    public class SensorReading
+    public class DeviceReading
     {
         public long Id { get; set; }
-        public int SensorId { get; set; }
+        public int DeviceId { get; set; }
         public long ReadingId { get; set; }
         public double Value { get; set; }
 
-        public virtual Sensor Sensor { get; set; }
+        public virtual Device Device { get; set; }
         public virtual Reading Reading { get; set; }
     }
 }

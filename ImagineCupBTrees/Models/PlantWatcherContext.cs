@@ -9,6 +9,6 @@ namespace ImagineCupBTrees.Models
     public class PlantWatcherContext : DbContext
     {
         public DbSet<SensorReading> SensorReadings { get; set; }
-        public DbSet<Device> Devices { get; set; }
+        public DbSet<DeviceReading> Devices { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace ImagineCupBTrees.Controllers.MVC
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            DeviceReading device = db.Devices.Find(id);
             if (device == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace ImagineCupBTrees.Controllers.MVC
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,IsOn,SetState,DateRecorded")] Device device)
+        public ActionResult Create([Bind(Include = "Id,Name,IsOn,SetState,DateRecorded")] DeviceReading device)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace ImagineCupBTrees.Controllers.MVC
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            DeviceReading device = db.Devices.Find(id);
             if (device == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace ImagineCupBTrees.Controllers.MVC
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,IsOn,SetState,DateRecorded")] Device device)
+        public ActionResult Edit([Bind(Include = "Id,Name,IsOn,SetState,DateRecorded")] DeviceReading device)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace ImagineCupBTrees.Controllers.MVC
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            DeviceReading device = db.Devices.Find(id);
             if (device == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace ImagineCupBTrees.Controllers.MVC
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Device device = db.Devices.Find(id);
+            DeviceReading device = db.Devices.Find(id);
             db.Devices.Remove(device);
             db.SaveChanges();
             return RedirectToAction("Index");
