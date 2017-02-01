@@ -259,6 +259,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\RaspberryPiHeadless_1.0.1.0_Test.zip" />
     <None Include="Properties\PublishProfiles\OrchidariumApi20170118080711 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\plantwatcherbot - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

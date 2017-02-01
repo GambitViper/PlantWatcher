@@ -26,5 +26,14 @@ namespace ImagineCupBTrees.Controllers
 
             return View();
         }
+
+        public FileResult DownloadApp()
+        {
+            string filePath = Server.MapPath("~/Content/RaspberryPiHeadless_1.0.1.0_Test.zip");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            var response = new FileContentResult(fileBytes, "application/octet-stream");
+            response.FileDownloadName = "RaspberryPiHeadless_1.0.1.0_Test.zip";
+            return response;
+        }
     }
 }
